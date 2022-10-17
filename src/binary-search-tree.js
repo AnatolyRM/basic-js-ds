@@ -35,12 +35,23 @@ class BinarySearchTree {
     }
 
     has(data) {
-        return this.find(data) !== null
+        const has = root =>{
+            if (root) {
+                if (root.data === data) return true
+                data < root.data
+                    ? has(root.left)
+                    : has(root.right)
+            } else {
+                return false
+            }
+        }
+
+        return has(this.rootNode)
     }
 
     find(data) {
         const search = (node, data) => {
-            if (!node) return null
+            if (!node) return
             if (data === node.data) return node
             if (data > node.data) {
                 return search(node.right, data)
@@ -52,21 +63,18 @@ class BinarySearchTree {
     }
 
     remove(data) {
-        const remove = (node, data) => {
 
-        }
-        this.rootNode = remove(this.rootNode, data)
     }
 
     min() {
-        if (!this.rootNode) return null
+        if (!this.rootNode) return
         let cur = this.rootNode
         while (cur.left) cur = cur.left
         return cur.data
     }
 
     max() {
-        if (!this.rootNode) return null
+        if (!this.rootNode) return
         let cur = this.rootNode
         while (cur.right) cur = cur.right
         return cur.data
