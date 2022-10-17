@@ -1,6 +1,6 @@
 const {NotImplementedError} = require('../extensions/index.js');
 
-// const { Node } = require('../extensions/list-tree.js');
+const { Node } = require('../extensions/list-tree.js');
 
 /**
  * Implement simple binary search tree according to task description
@@ -16,94 +16,52 @@ const {NotImplementedError} = require('../extensions/index.js');
 
 class BinarySearchTree {
     constructor() {
-        this.rootNode = null
+        this.root = null
     }
-
     root() {
-        return this.rootNode
+        return this.root
     }
 
     add(data) {
-        const addNodeEl = (node, data) => {
-            !node ? new Node(data) :
-            data === node.data ? node :
-            data < node.data ? node.left = addNodeEl(node.left, data) : node.right = addNodeEl(node.right, data)
-
+        const addNode = (node, data) => {
+            if (!node) return new Node(data)
+            if (node.data === data) return node
+            data < node.data ? node.left = addNode(node.left, data) : node.right = addNode(node.right, data)
             return node
         }
-        this.rootNode = addNodeEl(this.rootNode, data)
+        this.root = addNode(this.root, data)
     }
 
-
     has(data) {
-       return this.find(data) !== null
+        return this.find(data) !== null
     }
 
     find(data) {
-        const searchNode = (node, data) => {
-            !node ? null :
-            data === node.data ? node :
-                data < node.data ? searchNode(node.left, data) : searchNode(node.right, data)
+        const search = (node, data) => {
+            if (!node) return null
+            if (data === node.data) return node
+            data > node.data ? search(node.right, data) : search(node.left, data)
         }
 
-        return searchNode(this.rootNode, data)
+        return search(this.root, data)
     }
 
     remove(data) {
-        const removeNode = (node, data) => {
-            if (!node || (!node.left && !node.right)) return null
 
-            if (data < node.data) {
-                node.left = removeNode(node.left, data)
-                return node
-            }
-
-            if (data > node.data) {
-                node.right = removeNode(node.right, data)
-                return node
-            }
-
-            if (!node.left) {
-                node = node.right
-                return node
-            }
-
-            if (!node.right) {
-                node = node.left
-                return node
-            }
-
-            let minEl = node.right
-
-            if (minEl.left) minEl = minEl.left
-
-            node.data = minEl.data
-            node.right = removeNode(node.right, minEl.data)
-
-            return node
-        }
-
-        this.tree = removeNode(this.tree, data)
     }
 
     min() {
-        if (!this.rootNode) return null
-
-        let min = this.rootNode
-
-        if (min.left) min = min.left
-
-        return min.data
+        if (!this.root) return null
+        let cur = this.root
+        if (cur.left) cur = cur.left
+        return cur.data
     }
 
     max() {
-        if (!this.rootNode) return null
-
-        let max = this.rootNode
-
-        if (max.right) max = max.right
-
-        return max.data
+        if (!this.root) return null
+        let cur = this.root
+        if (cur.right) cur = cur.right
+        return cur.data
     }
 }
 
