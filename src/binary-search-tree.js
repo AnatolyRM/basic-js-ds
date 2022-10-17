@@ -35,23 +35,12 @@ class BinarySearchTree {
     }
 
     has(data) {
-        const has = root =>{
-            if (root) {
-                if (root.data === data) return true
-                data < root.data
-                    ? has(root.left)
-                    : has(root.right)
-            } else {
-                return false
-            }
-        }
-
-        return has(this.rootNode)
+        return this.find(data) !== null
     }
 
     find(data) {
         const search = (node, data) => {
-            if (!node) return
+            if (!node) return null
             if (data === node.data) return node
             if (data > node.data) {
                 return search(node.right, data)
