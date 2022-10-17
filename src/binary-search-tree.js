@@ -16,20 +16,22 @@ const { Node } = require('../extensions/list-tree.js');
 
 class BinarySearchTree {
     constructor() {
-        this.root = null
+        this.rootNode = null
     }
     root() {
-        return this.root
+        return this.rootNode
     }
 
     add(data) {
-        const addNode = (node, data) => {
+        const add = (node, data) => {
             if (!node) return new Node(data)
             if (node.data === data) return node
-            data < node.data ? node.left = addNode(node.left, data) : node.right = addNode(node.right, data)
+            data < node.data
+                ? node.left = add(node.left, data)
+                : node.right = add(node.right, data)
             return node
         }
-        this.root = addNode(this.root, data)
+        this.rootNode = add(this.rootNode, data)
     }
 
     has(data) {
@@ -40,27 +42,33 @@ class BinarySearchTree {
         const search = (node, data) => {
             if (!node) return null
             if (data === node.data) return node
-            data > node.data ? search(node.right, data) : search(node.left, data)
+            if (data > node.data) {
+                return search(node.right, data)
+            } else {
+                return search(node.left, data)
+            }
         }
-
-        return search(this.root, data)
+        return search(this.rootNode, data)
     }
 
     remove(data) {
+        const remove = (node, data) => {
 
+        }
+        this.rootNode = remove(this.rootNode, data)
     }
 
     min() {
-        if (!this.root) return null
-        let cur = this.root
-        if (cur.left) cur = cur.left
+        if (!this.rootNode) return null
+        let cur = this.rootNode
+        while (cur.left) cur = cur.left
         return cur.data
     }
 
     max() {
-        if (!this.root) return null
-        let cur = this.root
-        if (cur.right) cur = cur.right
+        if (!this.rootNode) return null
+        let cur = this.rootNode
+        while (cur.right) cur = cur.right
         return cur.data
     }
 }
